@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     public Rigidbody2D rigidbody2D;
+    public gameplayuimanager _gameplayuimanager;
+
     public int jumpSpeed;
     [SerializeField] private int _Speed;
+    [SerializeField] private int _score;
     private bool isGrounded = false;
 
     private void Update()
@@ -46,11 +48,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        {
+            Debug.Log("OnCollisionEnter2D");
+        }
         if (collision.gameObject.tag == "platform")
         {
             isGrounded = true;
             _animator.SetBool("CanJump", false);
         }
+
+        Debug.Log("OnCollisionEnter2D");
+        if (gameObject.tag == "SKIPSCENE")
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     private void MovePlayer(float horizontal)
     {
@@ -63,10 +72,19 @@ public class PlayerController : MonoBehaviour
         rigidbody2D.velocity = Vector2.up * jumpSpeed;
         _animator.SetBool("CanJump", true);
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if(gameObject.tag == "SKIPSCENE")
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+        {
+            Debug.Log("triggered");
+            if (other.gameObject.tag == "pickable")
+            {
+                other.gameObject.SetActive(false);
+                _score += 10;
+                gameplayuimanager.Instance._scoretext.text = "score : " + _score;
+            }
+
+        }
     }
 }
    

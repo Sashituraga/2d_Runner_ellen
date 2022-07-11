@@ -16,7 +16,7 @@ public class movingplatform : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, targetB.position, speed * Time.deltaTime);
         }
-        else if (switching = true)
+        else if (switching == true)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetA.position, speed * Time.deltaTime);
         }

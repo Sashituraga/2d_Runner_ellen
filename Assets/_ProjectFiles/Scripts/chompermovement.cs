@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class damageobjectmovement : MonoBehaviour
+public class chompermovement: MonoBehaviour
 {
 
     [SerializeField] private Transform targetA;
@@ -38,3 +38,4 @@ public class damageobjectmovement : MonoBehaviour
 
 
 }
+
