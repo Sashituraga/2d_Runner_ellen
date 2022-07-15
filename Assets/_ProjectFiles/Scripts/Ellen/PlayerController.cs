@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
-    public Rigidbody2D rigidbody2D;
+    public Rigidbody2D playerrigidbody2d;
     public gameplayuimanager _gameplayuimanager;
 
     public int jumpSpeed;
@@ -56,10 +56,6 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             _animator.SetBool("CanJump", false);
         }
-
-        Debug.Log("OnCollisionEnter2D");
-        if (gameObject.tag == "SKIPSCENE")
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     private void MovePlayer(float horizontal)
     {
@@ -69,22 +65,27 @@ public class PlayerController : MonoBehaviour
     }
     private void JumpPlayer()
     {
-        rigidbody2D.velocity = Vector2.up * jumpSpeed;
+        playerrigidbody2d.velocity = Vector2.up * jumpSpeed;
         _animator.SetBool("CanJump", true);
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-
-        {
-            Debug.Log("triggered");
+        Debug.Log("triggered");
             if (other.gameObject.tag == "pickable")
             {
                 other.gameObject.SetActive(false);
                 _score += 10;
                 gameplayuimanager.Instance._scoretext.text = "score : " + _score;
             }
-
+            
+           if (other.gameObject.tag == "SKIPSCENE")
+        {
+            SceneManager.LoadScene("GameOver");
         }
+                   
+           
+
+      
     }
 }
    
